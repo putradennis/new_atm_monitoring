@@ -32,7 +32,7 @@
                 <!-- <form class="card auth_form"> -->
                     <div class="header">
                         <img class="logo" src="<?php echo base_url() ?>assets/images/logo-alto.png" alt="">
-                        <h5>Log in</h5>
+                        <h5>Log in 123456</h5>
                     </div>
                     <div class="body">
                         <div class="input-group mb-3">
