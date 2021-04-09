@@ -10,7 +10,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2><strong>Terminal </strong> Saldo CRM </h2>
+                        <h2><strong>Terminal </strong> Saldo CRM Saldo </h2>
                     </div>
                     <div class="body">
                         <p>Please complete the form below. Mandatory fields marked *</p>
