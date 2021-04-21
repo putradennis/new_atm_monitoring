@@ -20,6 +20,8 @@ class Postilion_model extends CI_Model {
             'password' => md5($set['password']),
             'date_insert' => date("Y-m-d H:i:s"),
             'email' => $set['email'],
+            'user_role' => $set['user_role'],
+            'atm_prefix' => $set['atm_prefix'],
             
         );
         $this->load->database('default', TRUE);
