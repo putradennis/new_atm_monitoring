@@ -24,7 +24,7 @@
                             <div class="form-group">
                                 <div class="col-md-7">
                                     <label class="control-label col-md-2">User Name</label>
-                                    <input type="text" id="user_name" name="user_name" class="form-control" maxlength="25" value="<?php echo set_value('user_name', isset($default['user_name']) ? $default['user_name'] : ''); ?>" />
+                                    <input type="text" id="user_name" name="user_name" class="form-control" maxlength="25" />
                                     <?php echo form_error('user_name', '<div class="alert alert-danger"><button class="close" data-dismiss="alert" type="button">&times;</button>', '</div>'); ?>
 
                                 </div>
@@ -33,7 +33,7 @@
                             <div class="form-group">
                                 <div class="col-md-7">
                                     <label class="control-label col-md-2">Full Name</label>
-                                    <input type="text" id="full_name" name="full_name" class="form-control" maxlength="50" value="<?php echo set_value('full_name', isset($default['full_name']) ? $default['full_name'] : ''); ?>" />
+                                    <input type="text" id="full_name" name="full_name" class="form-control" maxlength="50" />
                                     <?php echo form_error('full_name', '<div class="alert alert-danger"><button class="close" data-dismiss="alert" type="button">&times;</button>', '</div>'); ?>
                                 </div>
                             </div>
@@ -41,7 +41,7 @@
                             <div class="form-group">
                                 <div class="col-md-7">
                                     <label class="control-label col-md-2">Email</label>
-                                    <input type="text" id="email" name="email" class="form-control" value="<?php echo set_value('email', isset($default['email']) ? $default['email'] : ''); ?>" />
+                                    <input type="text" id="email" name="email" class="form-control" />
                                     <?php echo form_error('email', '<div class="alert alert-danger"><button class="close" data-dismiss="alert" type="button">&times;</button>', '</div>'); ?>
                                 </div>
                             </div>
@@ -49,7 +49,7 @@
                             <div class="form-group">
                                 <div class="col-md-7">
                                     <label class="control-label col-md-2">New Password</label>
-                                    <input class="form-control" id="password" name="password" type="password" value="<?php echo set_value('password'); ?>" />
+                                    <input class="form-control" id="password" name="password" type="password" />
                                     <?php echo form_error('password', '<div class="alert alert-danger"><button class="close" data-dismiss="alert" type="button">&times;</button>', '</div>'); ?>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                             <div class="form-group">
                                 <div class="col-md-7">
                                     <label class="control-label col-md-2">Confirm Password</label>
-                                    <input class="form-control" id="confirm_password" name="confirm_password" type="password" value="<?php echo set_value('confirm_password'); ?>" />
+                                    <input class="form-control" id="confirm_password" name="confirm_password" type="password" />
                                     <?php echo form_error('confirm_password', '<div class="alert alert-danger"><button class="close" data-dismiss="alert" type="button">&times;</button>', '</div>'); ?>
 
                                 </div>
@@ -66,10 +66,10 @@
                             <div class="form-group">
                                 <div class="col-md-7">
                                     <label class="control-label col-md-2">Role User</label>
-                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="user_role" name="user_role">
+                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="user_right" name="user_right">
                                         <option value="">- Select Role -</option>
-                                        <option value="8">Administrator</option>
-                                        <option value="1">User</option>
+                                        <option value="1">Administrator</option>
+                                        <option value="3">User</option>
                                     </select>
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                             <div class="form-group">
                                 <div class="col-md-7">
                                     <label class="control-label col-md-2">ATM Prefix</label>
-                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="atm_prefix" name="atm_prefix">
+                                    <select class="form-control show-tick ms select2" data-placeholder="Select" id="prefix_atm" name="prefix_atm">
                                         <option value="">- Select -</option>
                                         <option value="1">ALL View</option>
                                         <option value="010">ATM</option>

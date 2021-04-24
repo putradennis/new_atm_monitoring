@@ -17,6 +17,7 @@ class Login extends CI_Controller
     public function form()
     {
         $this->myauth->login($this->_wrapper);
+        
     }
     
     public function logout()

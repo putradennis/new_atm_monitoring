@@ -96,8 +96,8 @@ class Account extends MY_Controller
     $data['default']['email'] = '';
     $data['default']['password'] = '';
     $data['default']['confirm_password'] = '';
-    $data['default']['user_role'] = '';
-    $data['default']['atm_prefix'] = '';
+    $data['default']['user_right'] = '';
+    $data['default']['prefix_atm'] = '';
     $data['table'] = $this->table->generate();
     $this->load->view('template', $data);
   }
@@ -118,18 +118,19 @@ class Account extends MY_Controller
     $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
     $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|matches[confirm_password]');
     $this->form_validation->set_rules('confirm_password', 'Confirmation', 'required|min_length[6]');
-    $this->form_validation->set_rules('user_role', 'User Role', 'required');
-    $this->form_validation->set_rules('atm_prefix', 'ATM Prefix', 'required');
+    $this->form_validation->set_rules('user_right', 'User Right', 'required');
+    $this->form_validation->set_rules('prefix_atm', 'Prefix ATM', 'required');
     if ($this->form_validation->run() == TRUE) {
       $user = array(
         'user_name' => $this->input->post('user_name'),
         'full_name' => $this->input->post('full_name'),
         'email' => $this->input->post('email'),
         'password' => $this->input->post('password'),
-        'user_role' => $this->input->post('user_role'),
-        'atm_prefix' => $this->input->post('atm_prefix')
+        'user_right' => $this->input->post('user_right'),
+        'prefix_atm' => $this->input->post('prefix_atm')
       );
       $this->Postilion_model->insert($user);
+      $this->Postilion_model->insert_group($user);
       $this->session->set_flashdata('message', "Another User ID has been registered.");
       redirect('account/setup_user');
     } else {
@@ -138,15 +139,36 @@ class Account extends MY_Controller
       $data['default']['email'] = $this->input->post('email');
       $data['default']['password'] = $this->input->post('password');
       $data['default']['confirm_password'] = $this->input->post('confirm_password');
-      $data['default']['user_role'] = $this->input->post('user_role');
-      $data['default']['atm_prefix'] = $this->input->post('atm_prefix');
+      $data['default']['user_right'] = $this->input->post('user_right');
+      $data['default']['prefix_atm'] = $this->input->post('prefix_atm');
       $this->load->view('template', $data);
     }
   }
 
+  function update($user_name)
+  {
+
+    $data['title'] = 'Monitoring-Log';
+    $data['header_view'] = 'header_view';
+    $data['content_view'] = 'account/account_add';
+    $data['username'] = $this->session->userdata('logged_full_name');
+    $data['lastlogin'] = $this->session->userdata('logged_last_login');
+    $data['form_action'] = site_url('account/add_process');
+    $data['default']['user_name'] = '';
+    $data['default']['full_name'] = '';
+    $data['default']['user_institution'] = '';
+    $data['default']['email'] = '';
+    $data['default']['password'] = '';
+    $data['default']['confirm_password'] = '';
+    $data['default']['user_right'] = '';
+    $data['default']['prefix_atm'] = '';
+    $data['table'] = $this->table->generate();
+    $this->load->view('template', $data);
+  }
+
   function active($user_name)
   {
-    $this->validmodul();
+    //$this->validmodul();
     $this->Postilion_model->active($user_name);
     $this->session->set_flashdata('message', "User ID $user_name is set to active.");
     redirect('account/setup_user');
@@ -154,8 +176,8 @@ class Account extends MY_Controller
 
   function nonactive($user_name)
   {
-    $this->validmodul();
-    $this->Postilion_model->nonactive($uid);
+    //$this->validmodul();
+    $this->Postilion_model->nonactive($user_name);
     $this->session->set_flashdata('message', "User ID $user_name is set to not active.");
     redirect('account/setup_user');
   }

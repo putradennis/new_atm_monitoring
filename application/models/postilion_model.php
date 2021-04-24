@@ -1,6 +1,8 @@
 <?php
 
 class Postilion_model extends CI_Model {
+
+    var $group_table = 'tbl_user_role';
     
     function __construct()
     {
@@ -20,12 +22,24 @@ class Postilion_model extends CI_Model {
             'password' => md5($set['password']),
             'date_insert' => date("Y-m-d H:i:s"),
             'email' => $set['email'],
-            'user_role' => $set['user_role'],
-            'atm_prefix' => $set['atm_prefix'],
+            'user_right' => $set['user_right'],
+            'prefix_atm' => $set['prefix_atm'],
             
         );
         $this->load->database('default', TRUE);
         $this->db->insert($this->tables['users'], $data);
+    }
+
+    function insert_group($set)
+    {
+        $data = array(
+            
+            'user_name' => $set['user_name'],
+            'user_right' => $set['user_right'],
+            'prefix_atm' => $set['prefix_atm'],
+            'date_insert' => date("Y-m-d H:i:s"),
+        );
+        $this->db->insert($this->group_table, $data);
     }
 
     // function get_latest_transaction_crm()
@@ -53,22 +67,31 @@ class Postilion_model extends CI_Model {
         return $query->result();
     }
 
+    // function active($user_name)
+    // {
+    //     $data = array(
+    //         'user_active' => '1'
+    //     );
+    //     $this->load->database('default', TRUE);
+    //     $this->db->update($this->tables['users'], $data, array('user_name' => $user_name, 'user_institution' => $this->config->item('institution')));
+    // }
+
     function active($user_name)
     {
         $data = array(
-            'user_active' => '1'
+            'status_active' => '1'
         );
         $this->load->database('default', TRUE);
-        $this->db->update($this->tables['tbl_users'], $data, array('user_name' => $user_name, 'user_institution' => $this->config->item('institution')));
+        $this->db->update($this->tables['users'], $data, array('user_name' => $user_name));
     }
 
     function nonactive($user_name)
     {
         $data = array(
-            'user_active' => '0'
+            'status_active' => '0'
         );
         $this->load->database('default', TRUE);
-        $this->db->update($this->tables['tbl_users'], $data, array('user_name' => $user_name, 'user_institution' => $this->config->item('institution')));
+        $this->db->update($this->tables['users'], $data, array('user_name' => $user_name));
     }
 
     function term_monitor_offset_temp($username) {
