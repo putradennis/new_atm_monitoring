@@ -12,6 +12,20 @@ class Postilion_model extends CI_Model {
         $this->join    = $this->config->item('join');
     }
 
+    function update_username($user_name)
+    {
+        $data = array(
+            'full_name' => $_POST['full_name'],
+            'email' => $_POST['email'],
+            'password' => md5($_POST['password']),
+
+        );
+        $this->load->database('default', TRUE);
+        $this->db->update($this->tables['users'], $data, array('user_name' => $user_name));
+        //die($this->db->last_query());
+    }
+
+
     function insert($set)
     {
         $data = array(
@@ -40,6 +54,12 @@ class Postilion_model extends CI_Model {
             'date_insert' => date("Y-m-d H:i:s"),
         );
         $this->db->insert($this->group_table, $data);
+    }
+
+    function select($user_name)
+    {
+        $this->load->database('default', TRUE);
+        return $this->db->get_where($this->tables['users'], array('user_name' => $user_name))->row();
     }
 
     // function get_latest_transaction_crm()

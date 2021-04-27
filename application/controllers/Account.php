@@ -15,6 +15,10 @@ class Account extends MY_Controller
 
   function setup_user()
   {
+    if ($this->session->userdata('logged_role') != 'Administrator') // Jika user yg login bukan admin
+    //die($this->session->userdata('logged_role'));
+    show_404(); // Redirect ke halaman 404 Not found
+
     $terms = $this->Postilion_model->user_mangement();
 
     $i = 1;
@@ -150,21 +154,65 @@ class Account extends MY_Controller
 
     $data['title'] = 'Monitoring-Log';
     $data['header_view'] = 'header_view';
-    $data['content_view'] = 'account/account_add';
+    $data['content_view'] = 'account/account_update';
     $data['username'] = $this->session->userdata('logged_full_name');
-    $data['lastlogin'] = $this->session->userdata('logged_last_login');
-    $data['form_action'] = site_url('account/add_process');
-    $data['default']['user_name'] = '';
-    $data['default']['full_name'] = '';
-    $data['default']['user_institution'] = '';
-    $data['default']['email'] = '';
-    $data['default']['password'] = '';
-    $data['default']['confirm_password'] = '';
-    $data['default']['user_right'] = '';
-    $data['default']['prefix_atm'] = '';
-    $data['table'] = $this->table->generate();
+    $data['last_login'] = $this->session->userdata('logged_last_login');
+    $data['form_action'] = site_url('account/update_process/'.$user_name);
+    $data['form_action_changepwd'] = site_url('account/change_uid_password/'. $user_name);
+
+    $user = $this->Postilion_model->select($user_name);
+    $this->session->set_userdata('date_insert', $user->date_insert);
+    $this->session->set_userdata('last_login', $user->last_login);
+
+    // Data untuk mengisi field2 form
+    $data['default']['user_name'] = $user->user_name;
+    $data['default']['full_name'] = $user->full_name;
+    $data['default']['date_insert'] = $user->date_insert;
+    $data['default']['last_login'] = $user->last_login;
+    $data['default']['email'] = $user->email;
+    $data['default']['password'] = $user->password;
+
     $this->load->view('template', $data);
   }
+
+  function update_process($user_name)
+  {
+
+    $data['title'] = 'Monitoring-Log';
+    $data['header_view'] = 'header_view';
+    $data['content_view'] = 'account/account_update';
+    $data['username'] = $this->session->userdata('logged_full_name');
+    $data['lastlogin'] = $this->session->userdata('logged_last_login');
+    $data['form_action'] = site_url('account/update_process/' . $user_name);
+    $data['form_action_changepwd'] = site_url('account/change_uid_password/' . $user_name);
+    $data['user_name'] = $user_name;
+    $data['table'] = $this->table->generate();
+    // Set validation rules
+    $this->form_validation->set_rules('full_name', 'Full Name', 'required');
+    $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+    if ($this->form_validation->run() == TRUE) {
+      $user = array(
+        'full_name' => $this->input->post('full_name'),
+        'email' => $this->input->post('email'),
+        'password' => $this->input->post('password')
+      );
+      $this->Postilion_model->update_username($user_name, $user);
+      $this->session->unset_userdata('date_insert');
+      $this->session->unset_userdata('last_login');
+      $this->session->set_flashdata('message', "User ID has been updated.");
+      redirect('account/setup_user');
+    } else {
+      $data['default']['full_name'] = $this->input->post('full_name');
+      $data['default']['date_insert'] = date($this->session->userdata('date_insert'));
+      $data['default']['last_login'] = date('d-m-Y h:i:s', $this->session->userdata('last_login'));
+      $data['default']['email'] = $this->input->post('email');
+      $data['default']['password'] = $this->input->post('password');
+      $data['default']['confirm_password'] = $this->input->post('confirm_password');
+      $this->load->view('template', $data);
+    }
+  }
+
+
 
   function active($user_name)
   {
